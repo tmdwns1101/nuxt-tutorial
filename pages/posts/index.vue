@@ -1,9 +1,16 @@
 <template>
-  <div class="posts-container"></div>
+  <div class="posts-container">
+    <PostList />
+  </div>
 </template>
 
 <script>
-export default {};
+import PostList from '@/components/Posts/PostList';
+export default {
+  components: {
+    PostList,
+  },
+};
 </script>
 
 <style scoped>
