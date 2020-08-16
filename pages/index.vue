@@ -3,15 +3,20 @@
     <section class="intro">
       <h1>Get the latest tech news!</h1>
     </section>
-    <PostList />
+    <PostList :posts="posts" />
   </div>
 </template>
 
 <script>
 import PostList from '@/components/Posts/PostList';
+import { mapGetters } from 'vuex';
 export default {
   components: {
     PostList,
+  },
+
+  computed: {
+    ...mapGetters(['posts']),
   },
 };
 </script>
