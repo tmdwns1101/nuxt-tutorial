@@ -12,9 +12,11 @@ const createStore = () => {
       },
     },
     actions: {
-      async nuxtServerInit({ commit }, { error }) {
+      async nuxtServerInit({ commit }, { error, req }) {
         try {
-          console.log('hello nuxtServerInit');
+          if (!process.client) {
+            console.log(req.session);
+          }
           const { data } = await axios.get(
             'https://jsonplaceholder.typicode.com/posts'
           );
@@ -31,6 +33,10 @@ const createStore = () => {
     getters: {
       posts(state) {
         return state.posts;
+      },
+      postById: (state) => (id) => {
+        console.log(state.posts.filter((elem) => elem.id === id));
+        return state.posts.filter((elem) => elem.id === id)[0];
       },
     },
   });
