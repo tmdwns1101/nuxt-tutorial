@@ -8,28 +8,37 @@
 
 <script>
 import AdminPostForm from '@/components/Admin/AdminPostForm';
-import { mapGetters } from 'vuex';
+import axios from 'axios';
+
 export default {
   components: {
     AdminPostForm,
   },
-  computed: {
-    ...mapGetters(['postById']),
-  },
-  data() {
-    return {
-      loadedPost: {
-        author: '',
-        title: '',
-        content: '',
-        thumbnailLink: 'https://picsum.photos/200/300',
-      },
-    };
-  },
-  created() {
-    const { postId } = this.$route.params;
-    console.log(postId);
-    this.loadedPost = this.postById(postId);
+  async asyncData({
+    isDev,
+    route,
+    store,
+    env,
+    params,
+    query,
+    req,
+    res,
+    redirect,
+    error,
+  }) {
+    const { postId } = params;
+
+    try {
+      const { data } = await axios.get(
+        `https://fir-test-28057.firebaseio.com/posts/${postId}.json`
+      );
+
+      return {
+        loadedPost: data,
+      };
+    } catch (e) {
+      error({ statusCode: 404, message: 'Post not found' });
+    }
   },
 };
 </script>

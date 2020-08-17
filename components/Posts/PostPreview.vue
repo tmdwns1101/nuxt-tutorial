@@ -18,7 +18,7 @@ export default {
   name: 'PostPreview',
   props: {
     id: {
-      type: Number,
+      type: String,
       required: true,
     },
     title: {

@@ -6,31 +6,13 @@
 
 <script>
 import PostList from '@/components/Posts/PostList';
-import axios from 'axios';
+import { mapGetters } from 'vuex';
 export default {
   components: {
     PostList,
   },
-
-  async asyncData({
-    isDev,
-    route,
-    store,
-    env,
-    params,
-    query,
-    req,
-    res,
-    redirect,
-    error,
-  }) {
-    console.log('async Data load');
-    const { data } = await axios.get(
-      'https://jsonplaceholder.typicode.com/posts'
-    );
-    return {
-      posts: data,
-    };
+  computed: {
+    ...mapGetters(['posts']),
   },
 };
 </script>

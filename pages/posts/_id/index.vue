@@ -3,10 +3,10 @@
     <section class="post">
       <h1 class="post-title">{{ post.title }}</h1>
       <div class="post-details">
-        <div class="post-detail">Last updated on xxx</div>
-        <div class="post-detail">Written by Name</div>
+        <div class="post-detail">Last updated on {{ updatedDate }}</div>
+        <div class="post-detail">Written by {{ post.author }}</div>
       </div>
-      <p>{{ post.body }}</p>
+      <p>{{ post.content }}</p>
     </section>
     <section class="post-feedback">
       <p>
@@ -19,6 +19,7 @@
 
 <script>
 import axios from 'axios';
+import moment from 'moment';
 export default {
   async asyncData({
     isDev,
@@ -35,14 +36,22 @@ export default {
     const { id } = params;
     try {
       const { data } = await axios.get(
-        `https://jsonplaceholder.typicode.com/posts/${id}`
+        `https://fir-test-28057.firebaseio.com/posts/${id}.json`
       );
+      console.log(data);
       return {
         post: data,
       };
     } catch (e) {
       error({ statusCode: 404, message: 'Post not found' });
     }
+  },
+  computed: {
+    updatedDate() {
+      const date = moment(this.post.updatedDate);
+
+      return date.format('MMMM Do YYYY, h:mm:ss a');
+    },
   },
 };
 </script>

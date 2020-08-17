@@ -6,8 +6,8 @@
       :id="post.id"
       :is-admin="isAdmin"
       :title="post.title"
-      :previewText="post.body"
-      thumbnail="https://picsum.photos/200/300"
+      :previewText="post.previewText"
+      :thumbnail="post.thumbnail"
     />
   </section>
 </template>

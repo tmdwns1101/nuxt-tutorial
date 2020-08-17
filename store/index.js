@@ -14,13 +14,18 @@ const createStore = () => {
     actions: {
       async nuxtServerInit({ commit }, { error, req }) {
         try {
+          console.log('init');
           if (!process.client) {
             console.log(req.session);
           }
           const { data } = await axios.get(
-            'https://jsonplaceholder.typicode.com/posts'
+            'https://fir-test-28057.firebaseio.com/posts.json'
           );
-          commit('setPosts', data);
+          const postList = [];
+          for (const key in data) {
+            postList.push({ ...data[key], id: key });
+          }
+          commit('setPosts', postList);
         } catch (e) {
           error({ statusCode: 404, message: 'Post not found' });
         }
@@ -34,9 +39,11 @@ const createStore = () => {
       posts(state) {
         return state.posts;
       },
-      postById: (state) => (id) => {
-        console.log(state.posts.filter((elem) => elem.id === id));
-        return state.posts.filter((elem) => elem.id === id)[0];
+      postById(state) {
+        return function (id) {
+          console.log('getter', id);
+          return state.posts.find((elem) => elem.id === id);
+        };
       },
     },
   });
